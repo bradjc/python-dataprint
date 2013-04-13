@@ -6,8 +6,8 @@
 
 
 #
-# tabwidth:    if 0, use spaces. if > 0, sets the width of the tab to be used for
-#              column aligning
+# tabwidth:    if 0, use spaces. if > 0, sets the width of the tab to be used
+#              for column aligning
 # min_padding: number of spaces to put between columns
 #
 
@@ -78,7 +78,8 @@ class DataPrinter:
 						max_line = max_lens[i] + self._padding
 						max_line_tabs = ((max_line - 1) / self._tabwidth) + 1
 						tabs = max_line_tabs - (len(str(col)) / self._tabwidth)
-						outfile.write("{1:\t<{0}s}".format(tabs + len(str(col)), str(col)));
+						outfile.write("{1:\t<{0}s}".format(tabs + len(str(col)),
+						                                   str(col)));
 
 				else:
 					# Don't add padding to the end of the last column
