@@ -37,6 +37,12 @@ Much better.
 Install
 -------
 
+    sudo pip install dataprint
+
+OR
+
+    git clone https://github.com/bradjc/python-dataprint.git
+    cd python-dataprint
     sudo python setup.py install
 
 
