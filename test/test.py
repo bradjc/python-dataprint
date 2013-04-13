@@ -6,3 +6,8 @@ a = [['Name', 'Age', 'Color'],
 
 print dataprint.to_string(a)
 dataprint.to_newfile("test.file", a)
+
+fd = open("exist.file", "w")
+fd.write("add some content\n")
+dataprint.to_file(fd, a)
+fd.close()
