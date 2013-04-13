@@ -46,11 +46,17 @@ OR
     sudo python setup.py install
 
 
+Changelog
+---------
+
+### Version 0.1
+Initial release. Supports data layouts of lists of lists, separates with tabs
+or spaces, and can write to a string or file.
+
 To Do
 -----
 
   - Document the thing
-  - Make all the options work
   - Lot more testing with different data inputs
 
 
