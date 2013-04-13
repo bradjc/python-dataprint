@@ -5,28 +5,36 @@
 #
 
 
+#
+# tabwidth:    if 0, use spaces. if > 0, sets the width of the tab to be used for
+#              column aligning
+# min_padding: number of spaces to put between columns
+#
+
 
 """
 Return the data pretty printed as a string.
 """
-def to_string (data, tabs=False, tabwidth=0, padding=2):
-	printer = DataPrinter(tabs=tabs, tabwidth=tabwidth, padding=padding)
+def to_string (data, tabwidth=0, min_padding=2):
+	printer = DataPrinter(tabwidth=tabwidth, min_padding=min_padding)
 	return printer.string_output(data)
 
-def to_newfile (filename, data, tabs=False, tabwidth=0, padding=2):
-	printer = DataPrinter(tabs=tabs, tabwidth=tabwidth, padding=padding)
+def to_newfile (filename, data, tabwidth=0, min_padding=2):
+	printer = DataPrinter(tabwidth=tabwidth, min_padding=min_padding)
 	printer.new_file_output(filename=filename, data=data)
 
-def to_file (open_file, data, tabs=False, tabwidth=0, padding=2):
-	printer = DataPrinter(tabs=tabs, tabwidth=tabwidth, padding=padding)
+def to_file (open_file, data, tabwidth=0, min_padding=2):
+	printer = DataPrinter(tabwidth=tabwidth, min_padding=min_padding)
 	printer.append_file_output(fd=open_file, data=data)
 
 
 class DataPrinter:
-	def __init__ (self, tabs=False, tabwidth=0, padding=2):
-		self._tabs = tabs
-		self._tabwidth = tabwidth
-		self._padding = padding
+	def __init__ (self, tabwidth=0, min_padding=2):
+		self._tabwidth = int(tabwidth)
+		self._padding = int(min_padding)
+
+		if self._tabwidth < 0 or self._padding < 0:
+			raise DataPrinterException("Invalid padding or tabwidth.")
 
 	def string_output (self, data):
 		fstring = StringFile()
@@ -61,8 +69,17 @@ class DataPrinter:
 		for row in data:
 			for i, col in zip(range(len(row)), row):
 				if i < len(row) - 1:
-					outfile.write("{1:<{0}s}".format(max_lens[i]+self._padding,
-						                             str(col)));
+					if self._tabwidth == 0:
+						# use spaces
+						outfile.write("{1:<{0}s}".format(max_lens[i]+
+						                                  self._padding,
+						                                 str(col)));
+					else:
+						max_line = max_lens[i] + self._padding
+						max_line_tabs = ((max_line - 1) / self._tabwidth) + 1
+						tabs = max_line_tabs - (len(str(col)) / self._tabwidth)
+						outfile.write("{1:\t<{0}s}".format(tabs + len(str(col)), str(col)));
+
 				else:
 					# Don't add padding to the end of the last column
 					outfile.write("{0}\n".format(col))
