@@ -1,6 +1,6 @@
 from distutils.core import setup
 
-setup(name='dataprint',
+setup(name='DataPrint',
       version='0.1',
-      packages=['dataprint',],
+      packages=['dataprint'],
      )
