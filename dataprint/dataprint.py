@@ -17,6 +17,10 @@ def to_newfile (filename, data, tabs=False, tabwidth=0, padding=2):
 	printer = DataPrinter(tabs=tabs, tabwidth=tabwidth, padding=padding)
 	printer.new_file_output(filename=filename, data=data)
 
+def to_file (open_file, data, tabs=False, tabwidth=0, padding=2):
+	printer = DataPrinter(tabs=tabs, tabwidth=tabwidth, padding=padding)
+	printer.append_file_output(fd=open_file, data=data)
+
 
 class DataPrinter:
 	def __init__ (self, tabs=False, tabwidth=0, padding=2):
@@ -24,16 +28,18 @@ class DataPrinter:
 		self._tabwidth = tabwidth
 		self._padding = padding
 
-	def new_file_output (self, filename, data):
-		f = open(filename, 'w')
-		self.format(data, f)
-		f.close()
-
 	def string_output (self, data):
 		fstring = StringFile()
 		self.format(data, fstring)
 		return fstring.get()
 
+	def new_file_output (self, filename, data):
+		f = open(filename, 'w')
+		self.format(data, f)
+		f.close()
+
+	def append_file_output (self, fd, data):
+		self.format(data, fd)
 
 	def format (self, data, outfile):
 		out = ""
