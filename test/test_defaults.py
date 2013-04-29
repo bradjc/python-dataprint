@@ -1,26 +1,33 @@
 from dataprint import dataprint
+import copy
 
 a = [['Name', 'Age', 'Color'],
-     ['Brad', 24, 'blue'],
-     ['Jeff', 20, 'yellow']]
+	 ['Brad', 24, 'blue'],
+	 ['Jeff', 20, 'yellow']]
+a_default = "Name  Age  Color\nBrad  24   blue\nJeff  20   yellow\n"
 
-print dataprint.to_string(a)
-dataprint.to_newfile("test.file", a)
+b = (('Year', 'Temp'),
+	 (2000, 76.4329087834),
+	 (5000, 8732.432432))
+b_default = "Year  Temp\n2000  76.4329087834\n5000  8732.432432\n"
 
-fd = open("exist.file", "w")
-fd.write("add some content\n")
-dataprint.to_file(fd, a)
-fd.close()
+c = [('A', 'B'),
+	 ("longer string", "and this")]
+c_def = "A              B\nlonger_string  and_this\n"
 
-print dataprint.to_string(a, tabwidth=4)
+def test_arrays ():
+	temp = dataprint.to_string(a)
+	assert temp == a_default
 
-b = [['Name', 'Age', 'Color'],
-     ['Brad', 24, 'blue'],
-     ['Jeff', 20, 'yellow'],
-     ['ReallyLong Name', 100, 'aafdlksjfkld']]
+def test_tuples ():
+	temp = dataprint.to_string(b)
+	assert temp == b_default
 
-dataprint.to_newfile("notab.file", b)
-dataprint.to_newfile("tab.file", b, tabwidth=4)
-dataprint.to_newfile("tab1space.file", b, tabwidth=4, min_padding=1)
-dataprint.to_newfile("tab5.file", b, tabwidth=5, min_padding=1)
-dataprint.to_newfile("space_nogap.file", b, min_padding=0)
+def test_longer ():
+	temp = dataprint.to_string(c)
+	assert temp == c_def
+
+def test_const ():
+	c_copy = copy.deepcopy(c)
+	temp = dataprint.to_string(c)
+	assert c == c_copy
