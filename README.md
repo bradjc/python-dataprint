@@ -67,6 +67,121 @@ The options:
     overwrite:   whether or not to overwrite a file if it exists
 
 
+
+Examples
+--------
+
+### Example 1
+
+Basic usage.
+
+```python
+from dataprint import dataprint
+
+data = [['Color', 'Length'],
+        ['blue', 4],
+        ['red', 3]]
+
+print dataprint.to_string(data)
+```
+
+Will print:
+
+    Color  Length
+    blue   4
+    red    3
+
+
+
+### Example 2
+
+Change the settings.
+
+```python
+from dataprint import dataprint
+
+data = [['Color', 'Length'],
+        ['blue', 4],
+        ['red', 3],
+        ['orange yellow', 13]]
+
+print dataprint.to_string(data, min_padding=4, separator='-')
+```
+
+    Color            Length
+    blue             4
+    red              3
+    orange-yellow    13
+
+
+### Example 3
+
+Output to a file.
+
+```python
+from dataprint import dataprint
+
+data = [['Color', 'Length'],
+        ['blue', 4],
+        ['red', 3]]
+
+dataprint.to_newfile(filename='example3.dat', data=data)
+```
+
+Will create `example3.dat` containing:
+
+    Color  Length
+    blue   4
+    red    3
+
+
+### Example 4
+
+You may want to put the formatted data into an already opened file.
+
+```python
+from dataprint import dataprint
+
+data = [['Color', 'Length'],
+        ['blue', 4],
+        ['red', 3]]
+
+fd = open('example4.dat', 'w')
+
+fd.write('# This data file is for example 4.\n\n')
+
+dataprint.to_file(open_file=fd, data=data)
+```
+
+This will create `example4.dat` containing:
+
+    # This data file is for example 4.
+
+    Color  Length
+    blue   4
+    red    3
+
+
+### Example 5
+
+Your data may be in columns instead of rows. To use this data, set `columns` to
+`TRUE`.
+
+```python
+from dataprint import dataprint
+
+x = [1, 2, 3]
+y = [10, 20, 30]
+
+print dataprint.to_string(data=[x, y], columns=True)
+```
+Output:
+
+    1  10
+    2  20
+    3  30
+
+
 Changelog
 ---------
 
