@@ -15,6 +15,9 @@ c = [('A', 'B'),
 	 ("longer string", "and this")]
 c_def = "A              B\nlonger_string  and_this\n"
 
+d = [['a', 'b', 'c'], [1, 2, 3]]
+d_def = "a  b  c\n1  2  3\n"
+
 def test_arrays ():
 	temp = dataprint.to_string(a)
 	assert temp == a_default
@@ -31,3 +34,7 @@ def test_const ():
 	c_copy = copy.deepcopy(c)
 	temp = dataprint.to_string(c)
 	assert c == c_copy
+
+def test_simple ():
+	temp = dataprint.to_string(d)
+	assert temp == d_def
