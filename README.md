@@ -185,6 +185,9 @@ Output:
 Changelog
 ---------
 
+### Version 0.3
+Added support for column based data.
+
 ### Version 0.2
 Added many tests, more error checking, and a separator replacement for spaces.
 
