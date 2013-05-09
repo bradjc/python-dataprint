@@ -1,3 +1,5 @@
+MANIFEST
+*.dat
 *.py[cod]
 
 # C extensions
