@@ -1,7 +1,7 @@
 from distutils.core import setup
 
 setup(name='DataPrint',
-      version='0.3',
+      version='1.0',
       description='Well formatted tabular data printing.',
       author='Brad Campbell',
       author_email='bradjc@umich.edu',
