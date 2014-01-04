@@ -21,7 +21,7 @@ which I find very hard to read. This module lets you take
 
 then do:
 
-    from dataprint import dataprint
+    import dataprint
     dataprint.to_file("xyz.dat", data)
 
 to get:
@@ -76,7 +76,7 @@ Examples
 Basic usage.
 
 ```python
-from dataprint import dataprint
+import dataprint
 
 data = [['Color', 'Length'],
         ['blue', 4],
@@ -98,7 +98,7 @@ Will print:
 Change the settings.
 
 ```python
-from dataprint import dataprint
+import dataprint
 
 data = [['Color', 'Length'],
         ['blue', 4],
@@ -119,7 +119,7 @@ print dataprint.to_string(data, min_padding=4, separator='-')
 Output to a file.
 
 ```python
-from dataprint import dataprint
+import dataprint
 
 data = [['Color', 'Length'],
         ['blue', 4],
@@ -140,7 +140,7 @@ Will create `example3.dat` containing:
 You may want to put the formatted data into an already opened file.
 
 ```python
-from dataprint import dataprint
+import dataprint
 
 data = [['Color', 'Length'],
         ['blue', 4],
@@ -168,7 +168,7 @@ Your data may be in columns instead of rows. To use this data, set `columns` to
 `TRUE`.
 
 ```python
-from dataprint import dataprint
+import dataprint
 
 x = [1, 2, 3]
 y = [10, 20, 30]
@@ -184,6 +184,10 @@ Output:
 
 Changelog
 ---------
+
+### Version 1.0
+No longer a package (just use `import dataprint`).
+Python 3 support.
 
 ### Version 0.3
 Added support for column based data.
