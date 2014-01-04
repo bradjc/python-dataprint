@@ -1,4 +1,5 @@
-from dataprint import dataprint
+import dataprint
+import io
 
 a = [['Name', 'Age', 'Color'],
 	 ['Brad', 24, 'blue'],
@@ -21,3 +22,11 @@ def test_new (tmpdir):
 	fd.close()
 	assert temp == a_default
 
+def test_io_existing (tmpdir):
+	fd = io.open(str(tmpdir) + "/exist.file", "w")
+	dataprint.to_file(fd, a)
+	fd.close()
+	fd = open(str(tmpdir) + "/exist.file", "r")
+	temp = fd.read()
+	fd.close()
+	assert temp == a_default

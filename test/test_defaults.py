@@ -1,4 +1,4 @@
-from dataprint import dataprint
+import dataprint
 import copy
 
 a = [['Name', 'Age', 'Color'],

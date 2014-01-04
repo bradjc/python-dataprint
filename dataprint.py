@@ -14,12 +14,16 @@
 #              the column itself.
 #
 
+import io
 import os
+import sys
 
-"""
-Return the data pretty printed as a string.
-"""
+PY3 = sys.version > '3'
+
 def to_string (data, tabwidth=0, min_padding=2, separator='_', columns=False):
+	"""
+	Return the data pretty printed as a string.
+	"""
 	printer = DataPrinter(tabwidth=tabwidth,
 	                      min_padding=min_padding,
 	                      separator=separator,
@@ -44,10 +48,11 @@ def to_file (open_file, data, tabwidth=0, min_padding=2, separator='_',
 	printer.append_file_output(fd=open_file, data=data)
 
 
+
 MISSING_STRING = "MISSING"
 
 
-class DataPrinter:
+class DataPrinter(object):
 	def __init__ (self, tabwidth=0, min_padding=2, separator='_',
 	              overwrite=False, columns=False):
 		self._tabwidth  = int(tabwidth)
@@ -82,11 +87,16 @@ to True in order to overwrite the file.")
 		f.close()
 
 	def append_file_output (self, fd, data):
-		if type(fd) is not file:
-			raise DataPrinterException("Provided file descriptor was not valid.")
-		if 'w' not in fd.mode:
-			raise DataPrinterException("Cannot write to file.")
-		self.format(data, fd)
+		if type(fd) == io.TextIOWrapper:
+			if fd.closed or not fd.writable():
+				raise DataPrinterException("Cannot write to file.")
+			self.format(data, fd)
+		else:
+			if PY3 or (type(fd) is not file):
+				raise DataPrinterException("Provided file descriptor was not valid.")
+			if 'w' not in fd.mode:
+				raise DataPrinterException("Cannot write to file.")
+			self.format(data, fd)
 
 	def format (self, data, outfile):
 		out = ""
@@ -94,6 +104,9 @@ to True in order to overwrite the file.")
 		try:
 			data.__iter__
 		except AttributeError:
+			raise DataPrinterException("Data is not a valid format.")
+
+		if type(data) == str:
 			raise DataPrinterException("Data is not a valid format.")
 
 		if self._columns:
@@ -155,20 +168,20 @@ to True in order to overwrite the file.")
 	def write_to_output (self, outfile, item, padding, max_len):
 		if not padding:
 			# Don't add padding to the end of the last column
-			outfile.write("{0}\n".format(item))
+			outfile.write(u"{0}\n".format(item))
 			return
 
 		if self._tabwidth == 0:
 			# use spaces
-			outfile.write("{1:<{0}s}".format(max_len+ self._padding, item));
+			outfile.write(u"{1:<{0}s}".format(max_len+ self._padding, item));
 		else:
 			max_line = max_len + self._padding
 			max_line_tabs = ((max_line - 1) // self._tabwidth) + 1
 			tabs = max_line_tabs - (len(str(item)) // self._tabwidth)
-			outfile.write("{1:\t<{0}s}".format(tabs + len(item), item));
+			outfile.write(u"{1:\t<{0}s}".format(tabs + len(item), item));
 
 
-class StringFile:
+class StringFile(object):
 	def __init__ (self):
 		self.internal_str = ""
 

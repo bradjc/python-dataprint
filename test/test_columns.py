@@ -1,4 +1,4 @@
-from dataprint import dataprint
+import dataprint
 import copy
 
 x = [4.5, 3]

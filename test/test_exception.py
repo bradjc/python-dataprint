@@ -1,11 +1,16 @@
-from dataprint import dataprint
+import dataprint
 import pytest
 
 a = "Simple String"
+b = 10
 
 def test_not_iter ():
 	with pytest.raises(dataprint.DataPrinterException):
-		b = dataprint.to_string(a)
+		c = dataprint.to_string(a)
+
+def test_not_iter_int ():
+	with pytest.raises(dataprint.DataPrinterException):
+		c = dataprint.to_string(b)
 
 def test_invalid (tmpdir):
 	fd = open(str(tmpdir) + "/exist.file", "w")
