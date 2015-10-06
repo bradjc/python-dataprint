@@ -182,6 +182,28 @@ Output:
     3  30
 
 
+### Example 6
+
+You may want to add extra notes to your data file, or have complicated data
+that requires some extra explanation.
+
+```python
+import dataprint
+import time
+
+data = [['blue', 4],
+        ['red', 3]]
+
+print dataprint.to_string(data, comments='Generated at {}'.format(time.asctime()))
+```
+
+Will print:
+
+    # Generated at Tue Oct  6 12:15:45 2015
+    blue   4
+    red    3
+
+
 Changelog
 ---------
 

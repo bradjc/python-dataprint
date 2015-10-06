@@ -20,31 +20,44 @@ import sys
 
 PY3 = sys.version > '3'
 
-def to_string (data, tabwidth=0, min_padding=2, separator='_', columns=False):
+def to_string (data,
+               tabwidth=0, min_padding=2, separator='_', columns=False,
+               comments=None, comment_lead='# '):
 	"""
 	Return the data pretty printed as a string.
 	"""
 	printer = DataPrinter(tabwidth=tabwidth,
 	                      min_padding=min_padding,
 	                      separator=separator,
-	                      columns=columns)
+	                      columns=columns,
+	                      comments=comments,
+	                      comment_lead=comment_lead,
+	                      )
 	return printer.string_output(data)
 
-def to_newfile (filename, data, tabwidth=0, min_padding=2, separator='_',
-                overwrite=False, columns=False):
+def to_newfile (filename, data,
+                tabwidth=0, min_padding=2, separator='_', overwrite=False, columns=False,
+                comments=None, comment_lead='# '):
 	printer = DataPrinter(tabwidth=tabwidth,
 	                      min_padding=min_padding,
 	                      separator=separator,
 	                      overwrite=overwrite,
-	                      columns=columns)
+	                      columns=columns,
+	                      comments=comments,
+	                      comment_lead=comment_lead,
+	                      )
 	printer.new_file_output(filename=filename, data=data)
 
-def to_file (open_file, data, tabwidth=0, min_padding=2, separator='_',
-             columns=False):
+def to_file (open_file, data,
+             tabwidth=0, min_padding=2, separator='_', columns=False,
+             comments=None, comment_lead='# '):
 	printer = DataPrinter(tabwidth=tabwidth,
 	                      min_padding=min_padding,
 	                      separator=separator,
-	                      columns=columns)
+	                      columns=columns,
+	                      comments=comments,
+	                      comment_lead=comment_lead,
+	                      )
 	printer.append_file_output(fd=open_file, data=data)
 
 
@@ -54,12 +67,18 @@ MISSING_STRING = "MISSING"
 
 class DataPrinter(object):
 	def __init__ (self, tabwidth=0, min_padding=2, separator='_',
-	              overwrite=False, columns=False):
-		self._tabwidth  = int(tabwidth)
-		self._padding   = int(min_padding)
-		self._separator = str(separator)
-		self._overwrite = bool(overwrite)
-		self._columns   = bool(columns)
+	              overwrite=False, columns=False,
+	              comments=None, comment_lead='# '):
+		self._tabwidth     = int(tabwidth)
+		self._padding      = int(min_padding)
+		self._separator    = str(separator)
+		self._overwrite    = bool(overwrite)
+		self._columns      = bool(columns)
+		self._comments     = comments
+		self._comment_lead = str(comment_lead) if comment_lead else ''
+
+		if isinstance(self._comments, str):
+			self._comments = [self._comments, ]
 
 		if self._tabwidth < 0 or self._padding < 0:
 			raise DataPrinterException("Invalid padding or tabwidth.")
@@ -108,6 +127,11 @@ to True in order to overwrite the file.")
 
 		if type(data) == str:
 			raise DataPrinterException("Data is not a valid format.")
+
+		# Write any comments out first
+		if self._comments:
+			for comment in self._comments:
+				outfile.write('{}{}\n'.format(self._comment_lead, comment))
 
 		if self._columns:
 			# Data is formated such that each list in data contains all the
