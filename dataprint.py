@@ -14,6 +14,7 @@
 #              the column itself.
 #
 
+import itertools
 import io
 import os
 import sys
@@ -133,14 +134,15 @@ to True in order to overwrite the file.")
 			for comment in self._comments:
 				outfile.write('{}{}\n'.format(self._comment_lead, comment))
 
+		# If columnar, invert the data
 		if self._columns:
-			# Data is formated such that each list in data contains all the
-			# values for a column of data
-			num_cols = len(data)
-			num_rows = [max(len(x) for x in data)][0]
-		else:
-			num_cols = [max(len(x) for x in data)][0]
-			num_rows = len(data)
+			if PY3:
+				data = tuple(itertools.zip_longest(*data, fillvalue=MISSING_STRING))
+			else:
+				data = tuple(itertools.izip_longest(*data, fillvalue=MISSING_STRING))
+
+		num_cols = [max(len(x) for x in data)][0]
+		num_rows = len(data)
 
 		# Assume we have a list of lists
 		max_lens = [0] * num_cols
@@ -151,42 +153,18 @@ to True in order to overwrite the file.")
 				# Determine the len of the data item after separators are used
 				item_str = self._separator.join(str(item).split())
 
-				column_index = i if self._columns else j
+				column_index = j
 
 				if len(item_str) > max_lens[column_index]:
 					max_lens[column_index] = len(item_str)
 
-		# Update the max lens if we have column data.
-		# Need to compensate if one column is longer than another.
-		if self._columns:
-			for i in range(num_cols):
-				if len(data[i]) < num_rows:
-					if len(MISSING_STRING) > max_lens[i]:
-						max_lens[i] = len(MISSING_STRING)
+		for row_idx, row in zip(range(len(data)), data):
+			for col_idx, item in zip(range(len(row)), row):
+				istr = self._separator.join(str(item).split())
 
-		# Iterate and write the output data
-		if self._columns:
-			# Iterate over the length the longest column
-			for row_idx in range(num_rows):
-				for col_idx in range(num_cols):
-					if row_idx < len(data[col_idx]):
-						istr = self._separator.join(
-							str(data[col_idx][row_idx]).split())
-					else:
-						istr = MISSING_STRING
+				pad = (col_idx != len(row) - 1)
 
-					pad = (col_idx != num_cols - 1)
-
-					self.write_to_output(outfile, istr, pad, max_lens[col_idx])
-
-		else:
-			for row_idx, row in zip(range(len(data)), data):
-				for col_idx, item in zip(range(len(row)), row):
-					istr = self._separator.join(str(item).split())
-
-					pad = (col_idx != len(row) - 1)
-
-					self.write_to_output(outfile, istr, pad, max_lens[col_idx])
+				self.write_to_output(outfile, istr, pad, max_lens[col_idx])
 
 
 	def write_to_output (self, outfile, item, padding, max_len):
