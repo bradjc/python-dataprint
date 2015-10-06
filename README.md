@@ -50,9 +50,9 @@ Usage
 
 Dataprint provides three easy functions to use:
 
-    to_string (data, tabwidth=0, min_padding=2, separator='_', comments=None, comment_lead='# ')
-    to_newfile (filename, data, tabwidth=0, min_padding=2, separator='_', overwrite=False, comments=None, comment_lead='# '):
-    to_file (open_file, data, tabwidth=0, min_padding=2, separator='_', comments=None, comment_lead='# ')
+    to_string (data, tabwidth=0, min_padding=2, separator='_', columns=False, comments=None, comment_lead='# ')
+    to_newfile (filename, data, tabwidth=0, min_padding=2, separator='_', columns=False, overwrite=False, comments=None, comment_lead='# '):
+    to_file (open_file, data, tabwidth=0, min_padding=2, separator='_', columns=False, comments=None, comment_lead='# ')
 
 The options:
 
@@ -64,6 +64,7 @@ The options:
     min_padding:  minimum number of spaces between columns in the output
     separator:    string that will replace whitespace in the column data.
                   This prevents spaces in data from creating more columns.
+    columns:      Set if data array is columnar instead of in row.
     overwrite:    whether or not to overwrite a file if it exists
     comments:     A string or array of strings to print as comments first.
     comment_lead: Prefix all comments with this string. None will disable commenting.
