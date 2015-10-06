@@ -37,7 +37,8 @@ def to_string (data,
 	return printer.string_output(data)
 
 def to_newfile (filename, data,
-                tabwidth=0, min_padding=2, separator='_', overwrite=False, columns=False,
+                tabwidth=0, min_padding=2, separator='_', columns=False,
+                overwrite=False,
                 comments=None, comment_lead='# '):
 	printer = DataPrinter(tabwidth=tabwidth,
 	                      min_padding=min_padding,
