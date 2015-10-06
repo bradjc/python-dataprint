@@ -26,7 +26,7 @@ then do:
 
 to get:
 
-	x     y    z
+    # x   y    z
     50    678  9
     5643  908  44
     321   2    2
@@ -87,9 +87,9 @@ print dataprint.to_string(data)
 
 Will print:
 
-    Color  Length
-    blue   4
-    red    3
+    # Color  Length
+    blue     4
+    red      3
 
 
 
@@ -108,7 +108,7 @@ data = [['Color', 'Length'],
 print dataprint.to_string(data, min_padding=4, separator='-')
 ```
 
-    Color            Length
+    # Color          Length
     blue             4
     red              3
     orange-yellow    13
@@ -130,9 +130,9 @@ dataprint.to_newfile(filename='example3.dat', data=data)
 
 Will create `example3.dat` containing:
 
-    Color  Length
-    blue   4
-    red    3
+    # Color  Length
+    blue     4
+    red      3
 
 
 ### Example 4
@@ -157,9 +157,9 @@ This will create `example4.dat` containing:
 
     # This data file is for example 4.
 
-    Color  Length
-    blue   4
-    red    3
+    # Color  Length
+    blue     4
+    red      3
 
 
 ### Example 5

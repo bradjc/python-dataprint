@@ -6,13 +6,13 @@ data = [['Name', 'Age', 'Color'],
         ['Jeff', 20, 'yellow']]
 
 a_comments = "This is a comment"
-a_default = "# This is a comment\nName  Age  Color\nBrad  24   blue\nJeff  20   yellow\n"
-a_symbol  = "%This is a comment\nName  Age  Color\nBrad  24   blue\nJeff  20   yellow\n"
+a_default = "# This is a comment\n# Name  Age  Color\nBrad    24   blue\nJeff    20   yellow\n"
+a_symbol  = "%This is a comment\n%Name  Age  Color\nBrad   24   blue\nJeff   20   yellow\n"
 a_none    = "This is a comment\nName  Age  Color\nBrad  24   blue\nJeff  20   yellow\n"
 
 b_comments = ["This comment 1", "And comment 2"]
-b_default = "# This comment 1\n# And comment 2\nName  Age  Color\nBrad  24   blue\nJeff  20   yellow\n"
-b_symbol  = "%This comment 1\n%And comment 2\nName  Age  Color\nBrad  24   blue\nJeff  20   yellow\n"
+b_default = "# This comment 1\n# And comment 2\n# Name  Age  Color\nBrad    24   blue\nJeff    20   yellow\n"
+b_symbol  = "%This comment 1\n%And comment 2\n%Name  Age  Color\nBrad   24   blue\nJeff   20   yellow\n"
 
 
 def test_single_comment ():

@@ -137,9 +137,9 @@ to True in order to overwrite the file.")
 		# If columnar, invert the data
 		if self._columns:
 			if PY3:
-				data = tuple(itertools.zip_longest(*data, fillvalue=MISSING_STRING))
+				data = list(itertools.zip_longest(*data, fillvalue=MISSING_STRING))
 			else:
-				data = tuple(itertools.izip_longest(*data, fillvalue=MISSING_STRING))
+				data = list(itertools.izip_longest(*data, fillvalue=MISSING_STRING))
 
 		num_cols = [max(len(x) for x in data)][0]
 		num_rows = len(data)
@@ -147,11 +147,40 @@ to True in order to overwrite the file.")
 		# Assume we have a list of lists
 		max_lens = [0] * num_cols
 
+		# Check if the data is mixed string and numbers, if so, assume the
+		# strings at the beginning are actually headers and comment them as
+		# appropriate
+		def has_any_numeric(row):
+			for r in row:
+				try:
+					float(r)
+					break
+				except ValueError:
+					pass
+			else:
+				return False
+			return True
+
+		number_of_leading_comments = 0
+		if self._comment_lead:
+			if len(data) > 1:
+				if has_any_numeric(data[-1]):
+					i = 0
+					while not has_any_numeric(data[i]):
+						i += 1
+					number_of_leading_comments = i
+
 		# Get the maximum len of each column
 		for i, array in zip(range(len(data)), data):
 			for j, item in zip(range(len(array)), array):
 				# Determine the len of the data item after separators are used
-				item_str = self._separator.join(str(item).split())
+				if i < number_of_leading_comments:
+					if j == 0:
+						item_str = '{}{}'.format(self._comment_lead, item)
+					else:
+						item_str = item
+				else:
+					item_str = self._separator.join(str(item).split())
 
 				column_index = j
 
@@ -160,7 +189,13 @@ to True in order to overwrite the file.")
 
 		for row_idx, row in zip(range(len(data)), data):
 			for col_idx, item in zip(range(len(row)), row):
-				istr = self._separator.join(str(item).split())
+				if row_idx < number_of_leading_comments:
+					if col_idx == 0:
+						istr = '{}{}'.format(self._comment_lead, item)
+					else:
+						istr = item
+				else:
+					istr = self._separator.join(str(item).split())
 
 				pad = (col_idx != len(row) - 1)
 
