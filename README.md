@@ -12,17 +12,21 @@ time. So data files end up looking like:
 
 which I find very hard to read. This module lets you take
 
-    data = [
-     ['x', 'y', 'z'],
-     [50, 678, 9],
-     [5643, 908, 44],
-     [321, 2, 2]
-    ]
+```python
+data = [
+ ['x', 'y', 'z'],
+ [50, 678, 9],
+ [5643, 908, 44],
+ [321, 2, 2]
+]
+```
 
 then do:
 
-    import dataprint
-    dataprint.to_file("xyz.dat", data)
+```python
+import dataprint
+dataprint.to_file("xyz.dat", data)
+```
 
 to get:
 
