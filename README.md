@@ -30,7 +30,7 @@ dataprint.to_file("xyz.dat", data)
 
 to get:
 
-	x     y    z
+    # x   y    z
     50    678  9
     5643  908  44
     321   2    2
@@ -54,21 +54,24 @@ Usage
 
 Dataprint provides three easy functions to use:
 
-    to_string (data, tabwidth=0, min_padding=2, separator='_')
-    to_newfile (filename, data, tabwidth=0, min_padding=2, separator='_', overwrite=False):
-    to_file (open_file, data, tabwidth=0, min_padding=2, separator='_')
+    to_string (data, tabwidth=0, min_padding=2, separator='_', columns=False, comments=None, comment_lead='# ')
+    to_newfile (filename, data, tabwidth=0, min_padding=2, separator='_', columns=False, overwrite=False, comments=None, comment_lead='# '):
+    to_file (open_file, data, tabwidth=0, min_padding=2, separator='_', columns=False, comments=None, comment_lead='# ')
 
 The options:
 
-    data:        A 2D array of data that should be formatted
-    filename:    string name of a file the data should be put in
-    open_file:   a file descriptor the data should be added to
-    tabwidth:    if 0, use spaces as the column separators.
-                 if >1, use tabs of tabwidth length to separate columns
-    min_padding: minimum number of spaces between columns in the output
-    separator:   string that will replace whitespace in the column data.
-                 This prevents spaces in data from creating more columns.
-    overwrite:   whether or not to overwrite a file if it exists
+    data:         A 2D array of data that should be formatted
+    filename:     string name of a file the data should be put in
+    open_file:    a file descriptor the data should be added to
+    tabwidth:     if 0, use spaces as the column separators.
+                  if >1, use tabs of tabwidth length to separate columns
+    min_padding:  minimum number of spaces between columns in the output
+    separator:    string that will replace whitespace in the column data.
+                  This prevents spaces in data from creating more columns.
+    columns:      Set if data array is columnar instead of in row.
+    overwrite:    whether or not to overwrite a file if it exists
+    comments:     A string or array of strings to print as comments first.
+    comment_lead: Prefix all comments with this string. None will disable commenting.
 
 
 
@@ -91,9 +94,9 @@ print dataprint.to_string(data)
 
 Will print:
 
-    Color  Length
-    blue   4
-    red    3
+    # Color  Length
+    blue     4
+    red      3
 
 
 
@@ -112,7 +115,7 @@ data = [['Color', 'Length'],
 print dataprint.to_string(data, min_padding=4, separator='-')
 ```
 
-    Color            Length
+    # Color          Length
     blue             4
     red              3
     orange-yellow    13
@@ -134,9 +137,9 @@ dataprint.to_newfile(filename='example3.dat', data=data)
 
 Will create `example3.dat` containing:
 
-    Color  Length
-    blue   4
-    red    3
+    # Color  Length
+    blue     4
+    red      3
 
 
 ### Example 4
@@ -161,9 +164,9 @@ This will create `example4.dat` containing:
 
     # This data file is for example 4.
 
-    Color  Length
-    blue   4
-    red    3
+    # Color  Length
+    blue     4
+    red      3
 
 
 ### Example 5
@@ -184,6 +187,28 @@ Output:
     1  10
     2  20
     3  30
+
+
+### Example 6
+
+You may want to add extra notes to your data file, or have complicated data
+that requires some extra explanation.
+
+```python
+import dataprint
+import time
+
+data = [['blue', 4],
+        ['red', 3]]
+
+print dataprint.to_string(data, comments='Generated at {}'.format(time.asctime()))
+```
+
+Will print:
+
+    # Generated at Tue Oct  6 12:15:45 2015
+    blue   4
+    red    3
 
 
 Changelog

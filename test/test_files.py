@@ -4,7 +4,7 @@ import io
 a = [['Name', 'Age', 'Color'],
 	 ['Brad', 24, 'blue'],
 	 ['Jeff', 20, 'yellow']]
-a_default = "Name  Age  Color\nBrad  24   blue\nJeff  20   yellow\n"
+a_default = "# Name  Age  Color\nBrad    24   blue\nJeff    20   yellow\n"
 
 def test_existing (tmpdir):
 	fd = open(str(tmpdir) + "/exist.file", "w")
