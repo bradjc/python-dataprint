@@ -25,7 +25,7 @@ then do:
 
 ```python
 import dataprint
-dataprint.to_file("xyz.dat", data)
+dataprint.to_newfile("xyz.dat", data)
 ```
 
 to get:
