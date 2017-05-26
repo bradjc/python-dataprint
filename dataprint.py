@@ -181,7 +181,8 @@ to True in order to overwrite the file.")
 					else:
 						item_str = item
 				else:
-					item_str = self._separator.join(str(item).split())
+					item_str = u'{}'.format(item)
+					item_str = self._separator.join(item_str.split())
 
 				column_index = j
 
@@ -196,7 +197,8 @@ to True in order to overwrite the file.")
 					else:
 						istr = item
 				else:
-					istr = self._separator.join(str(item).split())
+					istr = u'{}'.format(item)
+					istr = self._separator.join(istr.split())
 
 				pad = (col_idx != len(row) - 1)
 
