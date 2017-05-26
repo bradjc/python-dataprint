@@ -1,6 +1,8 @@
 python-dataprint
 ================
 
+[![Build Status](https://travis-ci.org/bradjc/python-dataprint.svg?branch=master)](https://travis-ci.org/bradjc/python-dataprint)
+
 Python module to print data to a file in a nice way. Usually data processing
 scripts write data to a file, but it is a hassle to format it nicely each
 time. So data files end up looking like:
