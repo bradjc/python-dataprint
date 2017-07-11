@@ -113,10 +113,8 @@ to True in order to overwrite the file.")
 				raise DataPrinterException("Cannot write to file.")
 			self.format(data, fd)
 		else:
-			if PY3 or (type(fd) is not file):
+			if not hasattr(fd, 'write'):
 				raise DataPrinterException("Provided file descriptor was not valid.")
-			if 'w' not in fd.mode:
-				raise DataPrinterException("Cannot write to file.")
 			self.format(data, fd)
 
 	def format (self, data, outfile):
